@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="tela2.css" class="css">
+    <title>Controle de produtos</title>
+</head>
+
+<body>
+
+    <!-- addOut div -->
+
+    <div id="addOut">
+        <div id="dash">
+            <div class="first_layer">
+                <h3>Produto</h3>
+                <img src="assets/image-removebg-preview.png" onclick="closeTab()">
+            </div>
+            <div class="second_layer">
+                <div class="input_type">
+                    <span>Código</span>
+                    <input id="codigo" type="number">
+                </div>
+                <div class="input_type">
+                    <span>Nome</span>
+                    <input id="nome" type="text">
+                </div>
+                <div class="input_type">
+                    <span>Quantidade</span>
+                    <input id="quantidade" type="number">
+                </div>
+                <div class="input_type">
+                    <span>Valor</span>
+                    <input id="valor" type="number">
+                </div>
+                <div class="input_type">
+                    <span>Data cadastro</span>
+                    <input id="createData" type="date">
+                </div>
+            </div>
+            <div class="third_layer">
+                <button onclick="salvar()">Salvar</button>
+                <button id="sair" onclick="closeTab()">Sair</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- top layer div -->
+
+    <div class="top_layer">
+        <div class="options">
+            <a href="tela2.html">Controle de produtos</a>
+            <a href="tela1.html">Voltar</a>
+        </div>
+    </div>
+
+    <!-- mid layer div -->
+
+    <div class="mid_layer">
+        <div class="crud">
+            <button onclick="criar()">Criar</button>
+            <div class="data">
+                <div id="header">
+                    <div>Código</div>
+                    <div>Nome</div>
+                    <div>Quantidade</div>
+                    <div>Valor</div>
+                    <div>Create data</div>
+                    <div>&nbsp;</div>
+                </div>
+                <div id="body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+
+    <script>
+        let addOut = document.getElementById('addOut');
+        let dash = document.getElementById('dash');
+        let codigo = document.getElementById('codigo');
+        let nome = document.getElementById('nome');
+        let quantidade = document.getElementById('quantidade');
+        let valor = document.getElementById('valor');
+        let createData = document.getElementById('createData');
+        let data = document.getElementsByClassName('data');
+        let lp = [];
+        let novo = true;
+        let linhaEditada = 0;
+
+        const jaExiste = (codigo) => {
+            for (let i in lp) {
+                if (lp[i].codigo == codigo) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        const criar = () => {
+            novo = true;
+            openTab()
+        }
+
+        const openTab = () => {
+            addOut.style.display = 'flex';
+        }
+
+        const closeTab = () => {
+            addOut.style.display = 'none';
+        }
+
+        const render = () => {
+            let body = document.getElementById('body');
+            body.innerHTML = '';
+            for (let p in lp) {
+                let l = document.createElement('div');
+                l.innerHTML = `<div>${lp[p].codigo}</div> `;
+                l.innerHTML += `<div>${lp[p].nome}</div>`;
+                l.innerHTML += `<div>${lp[p].quantidade}</div>`;
+                l.innerHTML += `<div>${lp[p].valor}</div>`;
+                l.innerHTML += `<div>${lp[p].createData}</div>`;
+                l.innerHTML += `<div class="acoes"><div onclick="excluir(${p})" class="hover"><span>Excluir</span></div><div>|</div><div onclick="editar(${p})" class="hover"><span>Editar</span></div></div>`;
+                l.classList.add('linha');
+                body.appendChild(l);
+            }
+            closeTab();
+        }
+
+        const salvar = (p) => {
+            if (jaExiste(codigo.value) && editado == false) {
+                alert('Código de produto já existente. Tente novamente.');
+                return;
+            }
+
+            if (codigo.value == '' || nome.value == '' || quantidade.value == '' || valor.value == '' || createData.value == '') {
+                alert('Complete todos os campos!')
+            } else {
+                if (novo) {
+                    lp.push({
+                        codigo: codigo.value,
+                        nome: nome.value,
+                        quantidade: quantidade.value,
+                        valor: valor.value,
+                        createData: createData.value
+                    })
+                } else {
+                    lp[linhaEditada].codigo = codigo.value;
+                    lp[linhaEditada].nome = nome.value;
+                    lp[linhaEditada].quantidade = quantidade.value;
+                    lp[linhaEditada].valor = valor.value;
+                    lp[linhaEditada].createData = createData.value;
+                }
+                render();
+            }
+        }
+
+        const excluir = (p) => {
+            lp.splice(p, 1);
+            render();
+        }
+
+        const editar = (p) => {
+            novo = false;
+            editado = true;
+            linhaEditada = p
+            openTab();
+            codigo.value = lp[p].codigo
+            nome.value = lp[p].nome
+            quantidade.value = lp[p].quantidade
+            valor.value = lp[p].valor
+            createData.value = lp[p].createData
+        }
+    </script>
+</body>
+
+</html>

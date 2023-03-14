@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="tela1.css">
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+<body>
+    <div class="all">
+        <h3>Login</h3>
+        <div class="email">
+            <span>E-mail</span>
+            <input id="email" class="text" type="email" placeholder="exemplo@gmail.com">
+        </div>
+        <div class="senha">
+            <span>Senha</span>
+            <input id="senha" class="text" type="password" placeholder="123456">
+        </div>
+        <input class="button" onclick="submit()" value="Entrar">
+    </div>
+    <script>
+        const emailPermitido = 'email@adm.com';
+        const senhaPermitida = 'admin';
+        let email = document.getElementById('email')
+        let senha = document.getElementById('senha')
+        let emailValido = false
+
+        const submit = () => {
+            if (email.value == emailPermitido && senha.value == senhaPermitida) {
+                location.href = "tela2.html"
+            } else {
+                alert('E-mail ou senha inválidos.')
+            }
+        }
+    </script>
+</body>
+
+</html>
